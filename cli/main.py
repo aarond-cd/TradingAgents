@@ -559,6 +559,7 @@ def get_user_selections():
     thinking_level = None
     reasoning_effort = None
     anthropic_effort = None
+    deepseek_thinking_level = None
 
     provider_lower = selected_llm_provider.lower()
     if provider_lower == "google":
@@ -585,6 +586,14 @@ def get_user_selections():
             )
         )
         anthropic_effort = ask_anthropic_effort()
+    elif provider_lower == "deepseek":
+        console.print(
+            create_question_box(
+                "Step 7: Thinking Level",
+                "Configure Deepseek thinking level"
+            )
+        )
+        deepseek_thinking_level = ask_deepseek_thinking_config()
 
     return {
         "ticker": selected_ticker,
@@ -598,6 +607,7 @@ def get_user_selections():
         "google_thinking_level": thinking_level,
         "openai_reasoning_effort": reasoning_effort,
         "anthropic_effort": anthropic_effort,
+        "deepseek_thinking_level": deepseek_thinking_level,
     }
 
 
@@ -882,7 +892,7 @@ def extract_content_string(content):
     return str(content).strip() if not is_empty(content) else None
 
 
-def classify_message_type(message) -> tuple[str, str | None]:
+def classify_message_type(message) -> tuple[str, Optional[str]]:
     """Classify LangChain message into display type and extract content.
 
     Returns:
@@ -931,6 +941,7 @@ def run_analysis():
     config["google_thinking_level"] = selections.get("google_thinking_level")
     config["openai_reasoning_effort"] = selections.get("openai_reasoning_effort")
     config["anthropic_effort"] = selections.get("anthropic_effort")
+    config["deepseek_thinking_level"] = selections.get("deepseek_thinking_level")
 
     # Create stats callback handler for tracking LLM/tool calls
     stats_handler = StatsCallbackHandler()

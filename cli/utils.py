@@ -166,6 +166,11 @@ def select_shallow_thinking_agent(provider) -> str:
             ("NVIDIA Nemotron 3 Nano 30B (free)", "nvidia/nemotron-3-nano-30b-a3b:free"),
             ("Z.AI GLM 4.5 Air (free)", "z-ai/glm-4.5-air:free"),
         ],
+        "deepseek": [
+            ("DeepSeek Chat - Balanced speed and capability", "deepseek-chat"),
+            ("DeepSeek Coder - Optimized for programming tasks", "deepseek-coder"),
+            ("DeepSeek Reasoner - Advanced reasoning capabilities", "deepseek-reasoner"),
+        ],
         "ollama": [
             ("Qwen3:latest (8B, local)", "qwen3:latest"),
             ("GPT-OSS:latest (20B, local)", "gpt-oss:latest"),
@@ -233,6 +238,11 @@ def select_deep_thinking_agent(provider) -> str:
             ("Z.AI GLM 4.5 Air (free)", "z-ai/glm-4.5-air:free"),
             ("NVIDIA Nemotron 3 Nano 30B (free)", "nvidia/nemotron-3-nano-30b-a3b:free"),
         ],
+        "deepseek": [
+            ("DeepSeek Reasoner - Advanced reasoning capabilities", "deepseek-reasoner"),
+            ("DeepSeek Chat - Balanced speed and capability", "deepseek-chat"),
+            ("DeepSeek Coder - Optimized for programming tasks", "deepseek-coder"),
+        ],
         "ollama": [
             ("GLM-4.7-Flash:latest (30B, local)", "glm-4.7-flash:latest"),
             ("GPT-OSS:latest (20B, local)", "gpt-oss:latest"),
@@ -271,6 +281,7 @@ def select_llm_provider() -> tuple[str, str]:
         ("Anthropic", "https://api.anthropic.com/"),
         ("xAI", "https://api.x.ai/v1"),
         ("Openrouter", "https://openrouter.ai/api/v1"),
+        ("Deepseek", "https://api.deepseek.com"),
         ("Ollama", "http://localhost:11434/v1"),
     ]
     
@@ -318,7 +329,7 @@ def ask_openai_reasoning_effort() -> str:
     ).ask()
 
 
-def ask_anthropic_effort() -> str | None:
+def ask_anthropic_effort() -> Optional[str]:
     """Ask for Anthropic effort level.
 
     Controls token usage and response thoroughness on Claude 4.5+ and 4.6 models.
@@ -338,7 +349,7 @@ def ask_anthropic_effort() -> str | None:
     ).ask()
 
 
-def ask_gemini_thinking_config() -> str | None:
+def ask_gemini_thinking_config() -> Optional[str]:
     """Ask for Gemini thinking configuration.
 
     Returns thinking_level: "high" or "minimal".
@@ -354,5 +365,25 @@ def ask_gemini_thinking_config() -> str | None:
             ("selected", "fg:green noinherit"),
             ("highlighted", "fg:green noinherit"),
             ("pointer", "fg:green noinherit"),
+        ]),
+    ).ask()
+
+
+def ask_deepseek_thinking_config() -> Optional[str]:
+    """Ask for Deepseek thinking configuration.
+
+    Returns thinking_level: "high", "medium", or "low".
+    """
+    return questionary.select(
+        "Select Thinking Level:",
+        choices=[
+            questionary.Choice("High (recommended)", "high"),
+            questionary.Choice("Medium (balanced)", "medium"),
+            questionary.Choice("Low (faster, cheaper)", "low"),
+        ],
+        style=questionary.Style([
+            ("selected", "fg:cyan noinherit"),
+            ("highlighted", "fg:cyan noinherit"),
+            ("pointer", "fg:cyan noinherit"),
         ]),
     ).ask()
