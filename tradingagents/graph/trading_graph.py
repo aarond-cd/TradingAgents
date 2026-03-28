@@ -153,6 +153,11 @@ class TradingAgentsGraph:
             if effort:
                 kwargs["effort"] = effort
 
+        elif provider == "deepseek":
+            thinking_level = self.config.get("deepseek_thinking_level")
+            if thinking_level:
+                kwargs["thinking_level"] = thinking_level
+
         return kwargs
 
     def _create_tool_nodes(self) -> Dict[str, ToolNode]:

@@ -12,6 +12,13 @@ config["deep_think_llm"] = "gpt-5-mini"  # Use a different model
 config["quick_think_llm"] = "gpt-5-mini"  # Use a different model
 config["max_debate_rounds"] = 1  # Increase debate rounds
 
+# Example DeepSeek configuration (uncomment to use):
+# config["llm_provider"] = "deepseek"
+# config["deep_think_llm"] = "deepseek-reasoner"
+# config["quick_think_llm"] = "deepseek-chat"
+# config["backend_url"] = "https://api.deepseek.com"
+# config["deepseek_thinking_level"] = "high"  # Optional
+
 # Configure data vendors (default uses yfinance, no extra API keys needed)
 config["data_vendors"] = {
     "core_stock_apis": "yfinance",           # Options: alpha_vantage, yfinance
