@@ -72,6 +72,9 @@ class OpenAIClient(BaseLLMClient):
         # Forward user-provided kwargs
         for key in _PASSTHROUGH_KWARGS:
             if key in self.kwargs:
+                # Skip thinking_level for deepseek provider as it's not supported
+                if self.provider == "deepseek" and key == "thinking_level":
+                    continue
                 llm_kwargs[key] = self.kwargs[key]
 
         # Native OpenAI: use Responses API for consistent behavior across

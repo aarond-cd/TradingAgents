@@ -158,6 +158,20 @@ class TradingAgentsGraph:
             if thinking_level:
                 kwargs["thinking_level"] = thinking_level
 
+        # Pass through common LLM client kwargs
+        passthrough_keys = [
+            "timeout", "max_retries", "api_key", "http_client",
+            "http_async_client", "callbacks"
+        ]
+        for key in passthrough_keys:
+            if key in self.config:
+                kwargs[key] = self.config[key]
+
+        # Log LLM kwargs for debugging
+        import logging
+        log = logging.getLogger(__name__)
+        log.info(f"LLM kwargs for {provider}: {kwargs}")
+
         return kwargs
 
     def _create_tool_nodes(self) -> Dict[str, ToolNode]:
